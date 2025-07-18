@@ -19,6 +19,10 @@ mongoose.connect(process.env.MONGODB_URI)
 // Routes
 app.use('/api/crypto', require('./routes/cryptoRoutes'));
 
+app.get('/', (req, res) => {
+  res.send('Welcome to the Crypto Tracker API');
+});
+
 // Cron job to fetch data every hour
 cron.schedule('0 * * * *', () => {
   console.log('Running hourly crypto data update...');
