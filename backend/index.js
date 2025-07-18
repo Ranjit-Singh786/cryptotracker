@@ -1,0 +1,29 @@
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const cron = require('node-cron');
+const { fetchAndStoreCryptoData } = require('./services/cryptoService');
+
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Database connection
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
+// Routes
+app.use('/api/crypto', require('./routes/cryptoRoutes'));
+
+// Cron job to fetch data every hour
+cron.schedule('0 * * * *', () => {
+  console.log('Running hourly crypto data update...');
+  fetchAndStoreCryptoData();
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
