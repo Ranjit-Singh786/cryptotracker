@@ -24,7 +24,7 @@
 
 ### 1. Clone the repository
 ```sh
-git clone https://github.com/yourusername/cryptotracker.git
+git clone https://github.com/Ranjit-Singh786/cryptotracker.git
 cd cryptotracker
 ```
 
@@ -82,4 +82,4 @@ The backend uses [`node-cron`](https://www.npmjs.com/package/node-cron) to sched
 - It calls [`fetchAndStoreCryptoData`](../backend/services/cryptoService.js) from [backend/services/cryptoService.js](../backend/services/cryptoService.js).
 - This function fetches the latest top 10 cryptocurrencies from the CoinGecko API.
 - It updates the current prices in the [`CryptoCurrent`](../backend/models/CryptoCurrent.js) collection and appends historical price data to [`CryptoHistory`](../backend/models/CryptoHistory.js).
-- This keeps your database up-to-date and allows the frontend to display both current and
+- This keeps your database up-to-date and allows the frontend to display both current and historical data.
