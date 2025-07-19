@@ -6,24 +6,23 @@ const cron = require('node-cron');
 const { fetchAndStoreCryptoData } = require('./services/cryptoService');
 
 const app = express();
-
-// Middleware
-app.use(cors());
+app.use(cors(
+  {
+    origin: 'https://cryptotracker-topaz-rho.vercel.app',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: false,
+  }
+));
 app.use(express.json());
 
-// Database connection
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
-
-// Routes
 app.use('/api/crypto', require('./routes/cryptoRoutes'));
 
 app.get('/', (req, res) => {
   res.send('Welcome to the Crypto Tracker API');
 });
-
-// Cron job to fetch data every hour
 cron.schedule('0 * * * *', () => {
   console.log('Running hourly crypto data update...');
   fetchAndStoreCryptoData();
