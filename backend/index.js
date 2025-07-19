@@ -22,6 +22,9 @@ app.use('/api/crypto', require('./routes/cryptoRoutes'));
 app.get('/', (req, res) => {
   res.send('Welcome to the Crypto Tracker API');
 });
+app.get('*', (req, res) => {
+  res.send('Handle all routes in Express');
+});
 cron.schedule('0 * * * *', () => {
   console.log('Running hourly crypto data update...');
   fetchAndStoreCryptoData();
