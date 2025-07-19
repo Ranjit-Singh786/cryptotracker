@@ -11,5 +11,11 @@
       "dest": "/index.js",
       "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     }
+  ],
+  "cron": [
+    {
+      "path": "/index.js",
+      "schedule": "0 * * * *" // every 5 minutes
+    }
   ]
 }
