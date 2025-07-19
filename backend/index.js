@@ -6,12 +6,12 @@ const cron = require('node-cron');
 const { fetchAndStoreCryptoData } = require('./services/cryptoService');
 
 const app = express();
-app.use(cors(
-  {
-    origin: '*',
-    credentials: false,
-  }
-));
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: false
+}));
 app.use(express.json());
 
 mongoose.connect(process.env.MONGODB_URI)
