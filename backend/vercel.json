@@ -15,7 +15,7 @@
   "cron": [
     {
       "path": "/index.js",
-      "schedule": "0 * * * *" // every 5 minutes
+      "schedule": "0 * * * *"
     }
   ]
 }
