@@ -11,5 +11,16 @@
       "dest": "/index.js",
       "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     }
+  ],
+    "functions": {
+    "api/cron.js": {
+      "runtime": "nodejs22.x"
+    }
+  },
+  "cron": [
+    {
+      "path": "/api/cron",
+      "schedule": "0 * * * *"
+    }
   ]
 }
