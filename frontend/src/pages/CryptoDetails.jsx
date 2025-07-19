@@ -69,10 +69,10 @@ function CryptoDetail() {
   if (!crypto) return <div className="text-center p-8">Loading...</div>;
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container max-w-full mx-auto p-4">
       <button 
         onClick={() => navigate('/')}
-        className="mb-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+        className="mb-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition cursor-pointer"
       >
         ← Back to List
       </button>

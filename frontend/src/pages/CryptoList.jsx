@@ -66,8 +66,8 @@ function CryptoList() {
   };
 
   return (
-    <div className="container">
-      <h1 className='text-2xl text-center p-4 font-bold'>Top 10 Cryptocurrencies</h1>
+    <div className="container max-w-full mx-auto p-4">
+      <h1 className='text-2xl text-center p-4 font-bold'>TOP 10 CRYPTOCURRENCIES</h1>
 
       <div className="w-full bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
       <div className="overflow-x-auto p-4 md:p-6 lg:p-8">
@@ -96,6 +96,13 @@ function CryptoList() {
            </tr>
           </thead>
           <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+            {cryptos.length === 0 && (
+              <tr>
+                <td colSpan="6" className="px-4 py-4 text-center text-gray-500 dark:text-gray-400">
+                  Loading...
+                  </td>
+                </tr>
+            )}
             {cryptos.map((crypto,index) => (
               <tr key={crypto.id} 
              className={`hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150 cursor-pointer ${selectedCrypto?.id === crypto.id ? 'bg-gray-100 dark:bg-gray-700' : ''}`}>
