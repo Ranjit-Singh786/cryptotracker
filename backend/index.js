@@ -8,9 +8,9 @@ const { fetchAndStoreCryptoData } = require('./services/cryptoService');
 const app = express();
 app.use(cors(
   {
-    origin: 'https://cryptotracker-topaz-rho.vercel.app',
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: false,
+    credentials: true,
   }
 ));
 app.use(express.json());
