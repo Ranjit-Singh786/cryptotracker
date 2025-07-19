@@ -28,10 +28,10 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Crypto Tracker API');
 });
 
-// cron.schedule('0 * * * *', () => {
-//   console.log('Running hourly crypto data update...');
-//   fetchAndStoreCryptoData();
-// });
+cron.schedule('0 * * * *', () => {
+  console.log('Running hourly crypto data update...');
+  fetchAndStoreCryptoData();
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
