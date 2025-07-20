@@ -1,16 +1,22 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-
+import { BeatLoader } from "react-spinners";
 const CryptoContext = createContext();
 const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
+ const override = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
 export const CryptoProvider = ({ children }) => {
   const [crypto, setCrypto] = useState(null);
   const [cryptos, setCryptos] = useState([]);
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-    const [selectedCrypto, setSelectedCrypto] = useState(null);
+  const [selectedCrypto, setSelectedCrypto] = useState(null);
+  const [puffloading, setPuffLoading] = useState(true);
+  const [color, setColor] = useState("#756c6cff");
 
    const fetchCryptos = async () => {
     try {
@@ -74,7 +80,7 @@ export const CryptoProvider = ({ children }) => {
     const color = isPositive ? 'text-green-600' : 'text-red-600';
     return (
       <span className={color}>
-        {isPositive ? '+' : ''}{value.toFixed(2)}%
+        {isPositive ? '+' : ''}{value?.toFixed(2)}%
       </span>
     );
   };
@@ -85,6 +91,26 @@ export const CryptoProvider = ({ children }) => {
   setLoading(true);
   setError(null);
 };
+ const puffLoaderDiv = ()=> {
+    return (
+      <div className="sweet-loading">
+      <button onClick={() => setPuffLoading(!loading)}></button>
+      <input
+        onChange={(input) => setColor(input.target.value) }
+      />
+
+      <BeatLoader
+        color={color}
+        loading={puffloading}
+        cssOverride={override}
+        size={15}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    </div>
+    );
+  };
+
 
   return (
     <CryptoContext.Provider
@@ -102,7 +128,8 @@ export const CryptoProvider = ({ children }) => {
         formatPrice,
         formatMarketCap,
         formatPercentage,
-        resetCryptoState
+        resetCryptoState,
+        puffLoaderDiv,
       }}
     >
       {children}

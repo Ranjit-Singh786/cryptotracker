@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCrypto } from '../context/CryptoContext';
-
 function CryptoList() {
   const {
     cryptos,
@@ -12,7 +11,8 @@ function CryptoList() {
     setSelectedCrypto,
     formatPrice,
     formatMarketCap,
-    formatPercentage
+    formatPercentage,
+    puffLoaderDiv
   } = useCrypto();
 
 
@@ -20,14 +20,8 @@ function CryptoList() {
     fetchCryptos();
   }, []);
 
-  if (loading && cryptos.length === 0) {
-    return (
-      <div className="container max-w-full mx-auto p-4">
-        <h1 className='text-2xl text-center p-4 font-bold'>TOP 10 CRYPTOCURRENCIES</h1>
-        <div className="text-center p-8">Loading...</div>
-      </div>
-    );
-  }
+
+  
 
   if (error) {
     return (
@@ -65,7 +59,14 @@ function CryptoList() {
               </tr>
             </thead>
             <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-              {cryptos.map((crypto, index) => (
+              {loading && cryptos.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="text-center py-8">
+                    {puffLoaderDiv()}
+                  </td>
+                </tr>
+              ) : (
+               cryptos.map((crypto, index) => (
                 <tr 
                   key={crypto.id} 
                   onClick={() => setSelectedCrypto(crypto)}
@@ -93,7 +94,9 @@ function CryptoList() {
                     {formatPercentage(crypto.price_change_percentage_24h)}
                   </td>
                 </tr>
-              ))}
+              ))
+              )}
+              
             </tbody>
           </table>
         </div>

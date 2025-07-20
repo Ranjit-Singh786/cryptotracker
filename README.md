@@ -8,7 +8,8 @@
 - Axios  
 - Chart.js & react-chartjs-2 & chartjs-plugin-zoom,
 - React Router  
-- Tailwind CSS  
+- Tailwind CSS
+- react-spinners
 
 **Backend:**  
 - Node.js  
