@@ -33,6 +33,11 @@ const fetchAndStoreCryptoData = async () => {
     }));
     
     console.log('Crypto data updated successfully');
+      return {
+        status: '200',
+        message: 'Crypto data updated successfully',
+        executed_at: new Date().toISOString()
+      }
   } catch (error) {
     console.error('Error fetching crypto data:', error.message);
   }

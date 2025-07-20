@@ -27,7 +27,8 @@ app.get('/api/cron', handler);
 
 async function handler(req, res) {
    console.log('Running hourly crypto data update...');
-  await fetchAndStoreCryptoData();
+ let result =  await fetchAndStoreCryptoData();
+  res.status(200).json(result);
 }
 
 app.get('/', (req, res) => {
