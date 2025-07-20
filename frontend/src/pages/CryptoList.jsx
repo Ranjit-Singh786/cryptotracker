@@ -15,7 +15,6 @@ function CryptoList() {
     puffLoaderDiv
   } = useCrypto();
 
-
   useEffect(() => {
     fetchCryptos();
   }, []);
