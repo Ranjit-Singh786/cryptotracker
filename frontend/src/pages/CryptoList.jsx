@@ -51,8 +51,8 @@ function CryptoList() {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
-      notation: 'compact',
-      compactDisplay: 'short'
+       minimumFractionDigits: 0,
+    maximumFractionDigits: 0
     }).format(cap);
   };
     const formatPercentage = (value) => {
@@ -80,16 +80,12 @@ function CryptoList() {
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 Name
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Symbol
+                <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Price
               </th>
               <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 Market Cap
               </th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Price
-              </th>
-             
               <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 % 24h
               </th>
@@ -113,18 +109,16 @@ function CryptoList() {
                     <Link to={`/crypto/${crypto.id}`} className="flex items-center gap-2">
                   <div className="flex items-center gap-2">
                     <img src={crypto.image} alt={crypto.name} width="24" />
-                    <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{crypto.name}</span>
+                    <span className="text-sm font-medium text-gray-900 dark:text-gray-100 m-0 p-0">{crypto.name}</span>
+                    ({crypto.symbol.toUpperCase()})
                   </div>
                 </Link>
                 </td>
-                <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-500 dark:text-gray-400">
-                  {crypto.symbol.toUpperCase()}
+                <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900 dark:text-gray-100">
+                  {formatPrice(crypto.current_price)}
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900 dark:text-gray-100">
                   {formatMarketCap(crypto.market_cap)}
-                </td>
-                <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900 dark:text-gray-100">
-                  {formatPrice(crypto.current_price)}
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap text-right text-sm">
                   {formatPercentage(crypto.price_change_percentage_24h)}

@@ -51,8 +51,8 @@ function CryptoDetail() {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
-      notation: 'compact',
-      compactDisplay: 'short'
+       minimumFractionDigits: 0,
+    maximumFractionDigits: 0
     }).format(cap);
   };
 
