@@ -6,7 +6,7 @@
 - React  
 - Vite  
 - Axios  
-- Chart.js & react-chartjs-2  
+- Chart.js & react-chartjs-2 & chartjs-plugin-zoom,
 - React Router  
 - Tailwind CSS  
 
@@ -49,7 +49,6 @@ npm install
   Example:
   ```
   MONGODB_URI=your_mongodb_connection_string
-  PORT=5000
   ```
 - **Frontend:**  
   Edit `.env` in the `frontend` folder if needed:
@@ -89,5 +88,7 @@ The backend uses [`node-cron`](https://www.npmjs.com/package/node-cron) to sched
  we have not found any solution in vercel free hosting platform.
  Then I simply make a endpoint individually for cron then create a cron job in different site-https://app.cronlytic.com/
  and given there cron endpoint with 1 hour time after it will excuted.
+ example:-backend_url/api/cron
+ Added this url over there and schedule the cron job with 1 hour.
  
  
