@@ -1,77 +1,113 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { useParams, useNavigate } from 'react-router-dom';
-const apiUrl = import.meta.env.VITE_API_URL|| 'http://localhost:5000';
+import { useCrypto } from '../context/CryptoContext.jsx';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
+
 function CryptoDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [crypto, setCrypto] = useState(null);
-  const [history, setHistory] = useState([]);
+  const {
+    crypto,
+    history,
+    loading,
+    error,
+    fetchCrypto,
+    fetchHistory,
+    formatPrice,
+    formatMarketCap,
+    formatPercentage,
+    resetCryptoState
+  } = useCrypto();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (id) {
-      fetchCrypto();
+      fetchCrypto(id);
       fetchHistory(id);
     }
+     return () => {
+      resetCryptoState();
+    };
   }, [id]);
 
-  const fetchCrypto = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}/crypto/current`);
-      const foundCrypto = response.data.find(c => c.id === id);
-      if (foundCrypto) {
-        setCrypto(foundCrypto);
-      } else {
-        navigate('/');
+  if (loading) return <div className="text-center p-8">Loading...</div>;
+  if (error) {
+    navigate('/');
+    return null;
+  }
+  if (!crypto) return null;
+
+  const handleBackClick = () => {
+    resetCryptoState();
+    navigate('/');
+  }
+
+  const chartData = {
+    labels: history.map(item => new Date(item.timestamp).toLocaleTimeString()),
+    datasets: [{
+      label: 'Price (USD)',
+      data: history.map(item => item.price),
+      borderColor: 'rgb(75, 192, 192)',
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      tension: 0.1,
+        fill: {
+        target: 'origin', 
+        above: 'rgba(75, 192, 192, 0.2)'
       }
-    } catch (error) {
-      console.error('Error fetching crypto:', error);
-      navigate('/');
+    }]
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    animate:{
+       animation: {
+      duration: 0
+    }
+    },
+    scales: {
+      x: {
+        type: 'category',
+        title: {
+          display: true,
+          text: 'Time'
+        }
+      },
+      y: {
+        type: 'linear',
+        title: {
+          display: true,
+          text: 'Price (USD)'
+        }
+      }
     }
   };
-
-  const fetchHistory = async (cryptoId) => {
-    try {
-      const response = await axios.get(`${apiUrl}/crypto/history/${cryptoId}`);
-      setHistory(response.data);
-    } catch (error) {
-      console.error('Error fetching history:', error);
-    }
-  };
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(price);
-  };
-
-  const formatMarketCap = (cap) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-       minimumFractionDigits: 0,
-    maximumFractionDigits: 0
-    }).format(cap);
-  };
-
-  const formatPercentage = (value) => {
-    const isPositive = value >= 0;
-    const color = isPositive ? 'text-green-600' : 'text-red-600';
-    return (
-      <span className={color}>
-        {isPositive ? '+' : ''}{value.toFixed(2)}%
-      </span>
-    );
-  };
-
-  if (!crypto) return <div className="text-center p-8">Loading...</div>;
 
   return (
     <div className="container max-w-full mx-auto p-4">
       <button 
-        onClick={() => navigate('/')}
+        onClick={() => handleBackClick()}
         className="mb-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition cursor-pointer"
       >
         ← Back to List
@@ -99,21 +135,7 @@ function CryptoDetail() {
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
         <h2 className="text-xl font-bold mb-4">Price Chart (24h)</h2>
         <div className="h-96">
-          <Line
-            data={{
-              labels: history.map(item => new Date(item.timestamp).toLocaleTimeString()),
-              datasets: [{
-                label: 'Price (USD)',
-                data: history.map(item => item.price),
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-              }]
-            }}
-            options={{
-              responsive: true,
-              maintainAspectRatio: false
-            }}
-          />
+          <Line data={chartData} options={chartOptions} />
         </div>
       </div>
     </div>
