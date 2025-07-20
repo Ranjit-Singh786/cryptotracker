@@ -6,7 +6,7 @@
 - React  
 - Vite  
 - Axios  
-- Chart.js & react-chartjs-2  
+- Chart.js & react-chartjs-2 & chartjs-plugin-zoom,
 - React Router  
 - Tailwind CSS  
 
@@ -49,7 +49,6 @@ npm install
   Example:
   ```
   MONGODB_URI=your_mongodb_connection_string
-  PORT=5000
   ```
 - **Frontend:**  
   Edit `.env` in the `frontend` folder if needed:
@@ -88,5 +87,3 @@ The backend uses [`node-cron`](https://www.npmjs.com/package/node-cron) to sched
 The node-cron package does not work independently on the Vercel free hosting platform, and we have not found a viable solution for running scheduled tasks directly within Vercel.
 
 To work around this limitation, we created a dedicated endpoint to handle the cron task, and then scheduled it externally using https://app.cronlytic.com/. The external cron service triggers the endpoint every hour to execute the task as intended.
-
- 
