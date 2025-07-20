@@ -83,3 +83,11 @@ The backend uses [`node-cron`](https://www.npmjs.com/package/node-cron) to sched
 - This function fetches the latest top 10 cryptocurrencies from the CoinGecko API.
 - It updates the current prices in the [`CryptoCurrent`](../backend/models/CryptoCurrent.js) collection and appends historical price data to [`CryptoHistory`](../backend/models/CryptoHistory.js).
 - This keeps your database up-to-date and allows the frontend to display both current and historical data.
+
+## Note
+ Cron not working in vercel independently with node-cron package
+ we have not found any solution in vercel free hosting platform.
+ Then I simply make a endpoint individually for cron then create a cron job in different site-https://app.cronlytic.com/
+ and given there cron endpoint with 1 hour time after it will excuted.
+ 
+ 
