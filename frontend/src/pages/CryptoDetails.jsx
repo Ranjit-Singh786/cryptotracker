@@ -13,7 +13,6 @@ import {
   Legend,
   Filler
 } from 'chart.js';
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
