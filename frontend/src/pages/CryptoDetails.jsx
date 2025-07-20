@@ -11,8 +11,10 @@ import {
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
 } from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -21,7 +23,8 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
+  zoomPlugin
 );
 
 function CryptoDetail() {
@@ -40,12 +43,14 @@ function CryptoDetail() {
     resetCryptoState
   } = useCrypto();
 
+  const chartRef = React.useRef(null);
+
   React.useEffect(() => {
     if (id) {
       fetchCrypto(id);
       fetchHistory(id);
     }
-     return () => {
+    return () => {
       resetCryptoState();
     };
   }, [id]);
@@ -55,12 +60,18 @@ function CryptoDetail() {
     navigate('/');
     return null;
   }
-  if (!crypto) return null;
+  if (!crypto) return <div className="text-center p-8">Loading...</div>;
 
   const handleBackClick = () => {
     resetCryptoState();
     navigate('/');
   }
+
+  const handleResetZoom = () => {
+    if (chartRef && chartRef.current) {
+      chartRef.current.resetZoom();
+    }
+  };
 
   const chartData = {
     labels: history.map(item => new Date(item.timestamp).toLocaleTimeString()),
@@ -70,8 +81,12 @@ function CryptoDetail() {
       borderColor: 'rgb(75, 192, 192)',
       backgroundColor: 'rgba(75, 192, 192, 0.2)',
       tension: 0.1,
-        fill: {
-        target: 'origin', 
+      pointRadius: 0,
+      pointHoverRadius: 5,
+      pointHitRadius: 10,
+      pointHoverBackgroundColor: 'rgb(75, 192, 192)',
+      fill: {
+        target: 'origin',
         above: 'rgba(75, 192, 192, 0.2)'
       }
     }]
@@ -80,25 +95,67 @@ function CryptoDetail() {
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
-    animate:{
-       animation: {
-      duration: 0
-    }
+    interaction: {
+      mode: 'nearest',
+      axis: 'x',
+      intersect: false
+    },
+    plugins: {
+      tooltip: {
+        enabled: true,
+        mode: 'index',
+        intersect: false,
+        callbacks: {
+          label: function(context) {
+            return `${context.dataset.label}: ${formatPrice(context.parsed.y)}`;
+          }
+        }
+      },
+      zoom: {
+        zoom: {
+          wheel: {
+            enabled: true,
+          },
+          pinch: {
+            enabled: true
+          },
+          mode: 'xy',
+        },
+        pan: {
+          enabled: true,
+          mode: 'xy',
+        }
+      },
+      legend: {
+        onClick: (e) => e.stopPropagation()
+      }
     },
     scales: {
       x: {
-        type: 'category',
         title: {
           display: true,
           text: 'Time'
+        },
+        grid: {
+          display: false
         }
       },
       y: {
-        type: 'linear',
         title: {
           display: true,
           text: 'Price (USD)'
+        },
+        ticks: {
+          callback: function(value) {
+            return formatPrice(value);
+          }
         }
+      }
+    },
+    onHover: (event, chartElement) => {
+      const target = event.native?.target;
+      if (target) {
+        target.style.cursor = chartElement[0] ? 'pointer' : 'default';
       }
     }
   };
@@ -132,9 +189,24 @@ function CryptoDetail() {
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-        <h2 className="text-xl font-bold mb-4">Price Chart (24h)</h2>
-        <div className="h-96">
-          <Line data={chartData} options={chartOptions} />
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold">Price Chart (24h)</h2>
+          <button 
+            onClick={handleResetZoom}
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 text-sm cursor-pointer"
+          >
+            Reset Zoom
+          </button>
+        </div>
+        <div className="h-96 relative">
+          <Line 
+            ref={chartRef}
+            data={chartData} 
+            options={chartOptions} 
+          />
+          <div className="absolute bottom-2 left-2 text-xs text-gray-500 dark:text-gray-400">
+            Scroll to zoom • Drag to pan • Click reset to restore
+          </div>
         </div>
       </div>
     </div>
