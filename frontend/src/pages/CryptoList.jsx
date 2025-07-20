@@ -64,39 +64,47 @@ function CryptoList() {
                     {puffLoaderDiv()}
                   </td>
                 </tr>
-              ) : (
-               cryptos.map((crypto, index) => (
-                <tr 
-                  key={crypto.id} 
-                  onClick={() => setSelectedCrypto(crypto)}
-                  className={`hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150 cursor-pointer ${selectedCrypto?.id === crypto.id ? 'bg-gray-100 dark:bg-gray-700' : ''}`}
-                >
-                  <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-500 dark:text-gray-400">
-                    {index + 1}
-                  </td>
-                  <td className="px-4 py-4 whitespace-nowrap">
-                    <Link to={`/crypto/${crypto.id}`} className="flex items-center gap-2">
-                      <div className="flex items-center gap-2">
+              ) : cryptos.length > 0 ? (
+                cryptos.map((crypto, index) => (
+                  <tr
+                    key={crypto.id}
+                    onClick={() => setSelectedCrypto(crypto)}
+                    className={`hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150 cursor-pointer ${
+                      selectedCrypto?.id === crypto.id ? 'bg-gray-100 dark:bg-gray-700' : ''
+                    }`}
+                  >
+                    <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-500 dark:text-gray-400">
+                      {index + 1}
+                    </td>
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <Link to={`/crypto/${crypto.id}`} className="flex items-center gap-2">
                         <img src={crypto.image} alt={crypto.name} width="24" />
-                        <span className="text-sm font-medium text-gray-900 dark:text-gray-100 m-0 p-0">{crypto.name}</span>
+                        <span className="text-sm font-medium text-gray-900 dark:text-gray-100 m-0 p-0">
+                          {crypto.name}
+                        </span>
                         ({crypto.symbol.toUpperCase()})
-                      </div>
-                    </Link>
-                  </td>
-                  <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900 dark:text-gray-100">
-                    {formatPrice(crypto.current_price)}
-                  </td>
-                  <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900 dark:text-gray-100">
-                    {formatMarketCap(crypto.market_cap)}
-                  </td>
-                  <td className="px-4 py-4 whitespace-nowrap text-right text-sm">
-                    {formatPercentage(crypto.price_change_percentage_24h)}
+                      </Link>
+                    </td>
+                    <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900 dark:text-gray-100">
+                      {formatPrice(crypto.current_price)}
+                    </td>
+                    <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900 dark:text-gray-100">
+                      {formatMarketCap(crypto.market_cap)}
+                    </td>
+                    <td className="px-4 py-4 whitespace-nowrap text-right text-sm">
+                      {formatPercentage(crypto.price_change_percentage_24h)}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center py-8">
+                    No cryptocurrencies found.
                   </td>
                 </tr>
-              ))
               )}
-              
             </tbody>
+
           </table>
         </div>
       </div>
