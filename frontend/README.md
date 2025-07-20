@@ -85,9 +85,8 @@ The backend uses [`node-cron`](https://www.npmjs.com/package/node-cron) to sched
 - This keeps your database up-to-date and allows the frontend to display both current and historical data.
 
 ## Note
- Cron not working in vercel independently with node-cron package
- we have not found any solution in vercel free hosting platform.
- Then I simply make a endpoint individually for cron then create a cron job in different site-https://app.cronlytic.com/
- and given there cron endpoint with 1 hour time after it will excuted.
- 
+The node-cron package does not work independently on the Vercel free hosting platform, and we have not found a viable solution for running scheduled tasks directly within Vercel.
+
+To work around this limitation, we created a dedicated endpoint to handle the cron task, and then scheduled it externally using https://app.cronlytic.com/. The external cron service triggers the endpoint every hour to execute the task as intended.
+
  
