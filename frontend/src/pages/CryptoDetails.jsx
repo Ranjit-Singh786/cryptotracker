@@ -165,7 +165,7 @@ function CryptoDetail() {
         onClick={() => handleBackClick()}
         className="mb-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-100 rounded hover:bg-gray-300 dark:hover:bg-gray-900 transition cursor-pointer"
       >
-       <span className='text-black'> ← Back to List</span>
+       <span className='text-black dark:text-gray-100'> ← Back to List</span>
       </button>
 
       {
