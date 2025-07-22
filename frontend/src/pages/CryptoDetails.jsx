@@ -163,9 +163,9 @@ function CryptoDetail() {
     <div className="container max-w-full mx-auto p-4">
       <button 
         onClick={() => handleBackClick()}
-        className="mb-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition cursor-pointer"
+        className="mb-4 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-100 rounded hover:bg-gray-300 dark:hover:bg-gray-900 transition cursor-pointer"
       >
-        ← Back to List
+       <span className='text-black'> ← Back to List</span>
       </button>
 
       {
@@ -175,18 +175,18 @@ function CryptoDetail() {
           </div>
         ) : (
            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-6 dark:text-gray-100">
           <img src={crypto?.image} alt={crypto?.name} className="w-16 h-16" />
-          <div className="text-center md:text-left">
+          <div className="text-center md:text-left dark:text-gray-100">
             <h1 className="text-2xl font-bold">{crypto?.name} ({crypto?.symbol.toUpperCase()})</h1>
-            <p className="text-3xl font-bold my-2">{formatPrice(crypto?.current_price)}</p>
+            <p className="text-3xl font-bold my-2 dark:text-gray-100">{formatPrice(crypto?.current_price)}</p>
             <div className="text-lg">
               {formatPercentage(crypto?.price_change_percentage_24h)}
             </div>
           </div>
           <div className="md:ml-auto grid grid-cols-2 gap-4 mt-4 md:mt-0">
             <div>
-              <p className="text-gray-500 dark:text-gray-400">Market Cap</p>
+              <p className="text-gray-500 dark:text-gray-100">Market Cap</p>
               <p className="font-bold">{formatMarketCap(crypto?.market_cap)}</p>
             </div>
           </div>
@@ -197,17 +197,17 @@ function CryptoDetail() {
 
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Price Chart (24h)</h2>
+          <h2 className="text-xl font-bold dark:text-gray-100">Price Chart (24h)</h2>
           <button 
             onClick={handleResetZoom}
-            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 text-sm cursor-pointer"
+            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:text-gray-100 hover:bg-gray-600 text-sm cursor-pointer"
           >
             Reset Zoom
           </button>
         </div>
         <div className="h-96 relative">
           {loading ? (
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center text-center p-8">
               {puffLoaderDiv()}
             </div>
           ) : history.length > 0 ? (
@@ -219,10 +219,10 @@ function CryptoDetail() {
           
           )
           : (
-            <div className="text-center p-8">No historical data available</div>
+            <div className="text-center p-8 dark:text-gray-100">No historical data available</div>
           )}  
          
-          <div className="absolute bottom-2 left-2 text-xs text-gray-500 dark:text-gray-400">
+          <div className="absolute bottom-2 left-2 text-xs text-gray-500 dark:text-gray-100">
             Scroll to zoom • Drag to pan • Click reset to restore
           </div>
         </div>

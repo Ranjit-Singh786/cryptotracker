@@ -19,9 +19,6 @@ function CryptoList() {
     fetchCryptos();
   }, []);
 
-
-  
-
   if (error) {
     return (
       <div className="container max-w-full mx-auto p-4">
@@ -82,7 +79,9 @@ function CryptoList() {
                         <span className="text-sm font-medium text-gray-900 dark:text-gray-100 m-0 p-0">
                           {crypto.name}
                         </span>
+                        <span className="text-sm font-medium text-gray-900 dark:text-gray-100 m-0 p-0">
                         ({crypto.symbol.toUpperCase()})
+                        </span>
                       </Link>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900 dark:text-gray-100">
